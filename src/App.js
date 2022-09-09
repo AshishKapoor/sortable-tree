@@ -39,10 +39,10 @@ export default class App extends Component {
               expanded: true,
               children: [
                 {
-                  title: <div>Second node child 1</div>,
+                  title: <div>Second node down 1</div>,
                 },
                 {
-                  title: <div>Second node child 2</div>,
+                  title: <div>Second node down 2</div>,
                 },
               ],
             },
@@ -53,14 +53,14 @@ export default class App extends Component {
           expanded: true,
           children: [
             {
-              title: "Third child node",
+              title: "Third down node",
               expanded: true,
               children: [
                 {
-                  title: <div>Third node child 1</div>,
+                  title: <div>Third node down 1</div>,
                 },
                 {
-                  title: <div>Third node child 2</div>,
+                  title: <div>Third node down 2</div>,
                 },
               ],
             },
@@ -71,11 +71,11 @@ export default class App extends Component {
           expanded: true,
           children: [
             {
-              title: "4th child node",
+              title: "4th down node",
               expanded: true,
               children: [
                 {
-                  title: <div>4th node child 1</div>,
+                  title: <div>4th node down 1</div>,
                 },
                 {
                   title: <div>4th node child 2</div>,
@@ -102,17 +102,22 @@ export default class App extends Component {
   render() {
     const nodeEntities = ["Plant", "Area", "Line", "Unit"];
     const { nodeClicked, searchString, searchFocusIndex, searchFoundCount } =
-    this.state;
-    console.log('searchString, searchFocusIndex, searchFoundCount: ', searchString, searchFocusIndex, searchFoundCount);
+      this.state;
+    console.log(
+      "searchString, searchFocusIndex, searchFoundCount: ",
+      searchString,
+      searchFocusIndex,
+      searchFoundCount
+    );
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const getNodeEntities = () =>
       nodeEntities[Math.floor(Math.random() * nodeEntities.length)];
 
     // Case insensitive search of `node.title`
-    const customSearchMethod = ({ node, searchQuery }) => {
-      console.log('node: ', searchQuery && typeof node.title === 'string' && node.title.toLowerCase().includes(searchQuery.toLowerCase()));
-      return searchQuery && typeof node.title === 'string' && node.title.toLowerCase().includes(searchQuery.toLowerCase());
-    };
+    const customSearchMethod = ({ node, searchQuery }) =>
+      searchQuery &&
+      typeof node.title === "string" &&
+      node.title.toLowerCase().includes(searchQuery.toLowerCase());
 
     const selectPrevMatch = () =>
       this.setState({
@@ -136,56 +141,85 @@ export default class App extends Component {
           height: "100vh",
           display: "flex",
           flexDirection: "row",
-          margin: "16px",
         }}
       >
-        <div style={{ width: "28%", overflow: "scroll" }}>
-          <h2>Node Demo</h2>
-          <form
-            style={{ display: "inline-block" }}
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          >
-            <input
-              id="find-box"
-              type="text"
-              placeholder="Search..."
-              style={{ fontSize: "1rem" }}
-              value={searchString}
-              onChange={(event) =>
-                this.setState({ searchString: event.target.value })
-              }
-            />
-
-            <button
-              type="button"
-              disabled={!searchFoundCount}
-              onClick={selectPrevMatch}
+        <div style={{ width: "350px", overflow: "scroll" }}>
+          <div style={{ margin: "16px" }}>
+            <h3>Node Demo</h3>
+            <form
+              style={{ display: "inline-block" }}
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
             >
-              &lt;
-            </button>
+              <input
+                id="find-box"
+                type="text"
+                placeholder="Search asset node"
+                style={{ fontSize: "1rem", marginBottom: "24px" }}
+                value={searchString}
+                onChange={(event) =>
+                  this.setState({ searchString: event.target.value })
+                }
+              />
 
-            <button
-              type="submit"
-              disabled={!searchFoundCount}
-              onClick={selectNextMatch}
-            >
-              &gt;
-            </button>
+              <button
+                type="button"
+                disabled={!searchFoundCount}
+                onClick={selectPrevMatch}
+              >
+                &lt;
+              </button>
 
-            <span>
-              &nbsp;
-              {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-              &nbsp;/&nbsp;
-              {searchFoundCount || 0}
-            </span>
-          </form>
+              <button
+                type="submit"
+                disabled={!searchFoundCount}
+                onClick={selectNextMatch}
+              >
+                &gt;
+              </button>
+
+              <span>
+                &nbsp;
+                {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
+                &nbsp;/&nbsp;
+                {searchFoundCount || 0}
+              </span>
+
+              <button
+                style={{
+                  marginRight: "8px",
+                }}
+                onClick={() =>
+                  this.setState((state) => ({
+                    treeData: state.treeData.concat({
+                      title: getNodeEntities(),
+                    }),
+                  }))
+                }
+              >
+                Add Root Node
+              </button>
+              <label htmlFor="addAsFirstChild">
+                Add new nodes at start
+                <input
+                  name="addAsFirstChild"
+                  type="checkbox"
+                  checked={this.state.addAsFirstChild}
+                  onChange={() =>
+                    this.setState((state) => ({
+                      addAsFirstChild: !state.addAsFirstChild,
+                    }))
+                  }
+                />
+              </label>
+            </form>
+          </div>
+
           <SortableTree
             style={{
-              paddingTop: "20px",
               padding: "16px",
-              borderRadius: "16px 16px 0 0",
+              borderRadius: "0 16px 0 0",
               backgroundColor: "#ebecf0",
             }}
             theme={FileExplorerTheme}
@@ -270,21 +304,23 @@ export default class App extends Component {
         </div>
         <div
           style={{
-            height: "100vh",
             width: "70%",
-            display: "flex",
             alignItems: "flex-start",
             justifyContent: "center",
+            marginLeft: "28px",
           }}
         >
           {nodeClicked && (
             <p>
-              <b>{nodeClicked.title}</b>{" "}
+              <h3>{nodeClicked.title}</h3>{" "}
               <pre
                 style={{
-                  width: "800px",
+                  width: "70vw",
                   maxHeight: "800px",
-                  overflow: "scroll",
+                  overflow: "auto",
+                  borderRadius: "12px",
+                  padding: "8px",
+                  // overflow: "scroll",
                   backgroundColor: "#ebecf0",
                 }}
               >
