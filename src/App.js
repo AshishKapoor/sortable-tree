@@ -145,7 +145,7 @@ export default class App extends Component {
       >
         <div style={{ width: "350px", overflow: "scroll" }}>
           <div style={{ margin: "16px" }}>
-            <h3>Node Demo</h3>
+            <h3>Node Structure Demo</h3>
             <form
               style={{ display: "inline-block" }}
               onSubmit={(event) => {
@@ -198,7 +198,7 @@ export default class App extends Component {
                   }))
                 }
               >
-                Add Root Node
+                Add root node
               </button>
               <label htmlFor="addAsFirstChild">
                 Add new nodes at start
@@ -229,6 +229,10 @@ export default class App extends Component {
               return {
                 buttons: [
                   <button
+                    data-toggle="tooltip"
+                    delay='{"show": 100, "hide": 100}'
+                    data-placement="top"
+                    title="Click to add a child element here"
                     onClick={() =>
                       this.setState((state) => ({
                         treeData: addNodeUnderParent({
@@ -247,6 +251,10 @@ export default class App extends Component {
                     +
                   </button>,
                   <button
+                    data-toggle="tooltip"
+                    delay='{"show": 100, "hide": 100}'
+                    data-placement="top"
+                    title="Click to remove a child element here"
                     onClick={() =>
                       this.setState((state) => ({
                         treeData: removeNodeAtPath({
@@ -272,8 +280,8 @@ export default class App extends Component {
             }}
             treeData={this.state.treeData}
             onChange={this.handleTreeOnChange}
-            canDrag={() => false}
-            canDrop={() => false}
+            canDrag={() => true}
+            canDrop={() => true}
             //
             // Custom comparison for matching during search.
             // This is optional, and defaults to a case sensitive search of
@@ -320,8 +328,9 @@ export default class App extends Component {
                   overflow: "auto",
                   borderRadius: "12px",
                   padding: "8px",
-                  // overflow: "scroll",
-                  backgroundColor: "#ebecf0",
+                  color: "white",
+                  backgroundColor: "#808080",
+                  fontFamily: "monospace",
                 }}
               >
                 {JSON.stringify(nodeClicked, null, 2)}
