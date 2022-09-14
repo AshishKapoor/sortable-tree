@@ -100,15 +100,9 @@ export default class App extends Component {
   };
 
   render() {
-    const nodeEntities = ["Plant", "Area", "Line", "Unit"];
+    const nodeEntities = ["A Node", "B Node", "C Node", "D Node"];
     const { nodeClicked, searchString, searchFocusIndex, searchFoundCount } =
       this.state;
-    console.log(
-      "searchString, searchFocusIndex, searchFoundCount: ",
-      searchString,
-      searchFocusIndex,
-      searchFoundCount
-    );
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const getNodeEntities = () =>
       nodeEntities[Math.floor(Math.random() * nodeEntities.length)];
@@ -143,9 +137,9 @@ export default class App extends Component {
           flexDirection: "row",
         }}
       >
-        <div style={{ width: "350px", overflow: "scroll" }}>
+        <div style={{ width: "350px", minWidth: "350px", overflow: "scroll" }}>
           <div style={{ margin: "16px" }}>
-            <h3>Node Structure Demo</h3>
+            <h3>Node Structure</h3>
             <form
               style={{ display: "inline-block" }}
               onSubmit={(event) => {
@@ -220,7 +214,7 @@ export default class App extends Component {
             style={{
               padding: "16px",
               borderRadius: "0 16px 0 0",
-              backgroundColor: "#ebecf0",
+              backgroundColor: "#f3f3f6",
             }}
             theme={FileExplorerTheme}
             getNodeKey={getNodeKey}
@@ -329,7 +323,7 @@ export default class App extends Component {
                   borderRadius: "12px",
                   padding: "8px",
                   color: "white",
-                  backgroundColor: "#808080",
+                  backgroundColor: "#000000",
                   fontFamily: "monospace",
                 }}
               >
